@@ -10,8 +10,8 @@ public class Demo {
         dogBobik.run(300);
         catRizhik.swim(50);
 
-        System.out.println(dogSirko.getCounterAnimals());
-        System.out.println(dogSirko.getCounterDogs());
-        System.out.println(catRizhik.getCounterCat());
+        System.out.println(Animal.getAnimalCounter());
+        System.out.println(dogSirko.getDogsCounter());
+        System.out.println(catRizhik.getCatsCounter());
     }
 }
