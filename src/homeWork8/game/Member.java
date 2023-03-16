@@ -1,4 +1,4 @@
-package homeWork8.games;
+package homeWork8.game;
 
 public class Member {
 
@@ -13,7 +13,7 @@ public class Member {
     private int maxRunWidth;
     private int countBarrier;
 
-    private boolean isRunned(String barrier, int width) {
+    private boolean canRun(String barrier, int width) {
         if (width <= this.maxRunWidth) {
             countBarrier++;
             System.out.println("Member " + this.member + " run on the " + barrier + " distance of: " + width);
@@ -24,7 +24,7 @@ public class Member {
         }
     }
 
-    private boolean isJumped(String barrier, int height) {
+    private boolean canJump(String barrier, int height) {
         if (height <= this.maxJumpHeight) {
             countBarrier++;
             System.out.println("Member " + this.member + " jumped across " + barrier + " height of: " + height);
@@ -35,11 +35,11 @@ public class Member {
         }
     }
 
-    public boolean overcome(Barrier barrier) {
-        if (barrier.typeBarrier == BarrierType.WALL) {
-            return isJumped(barrier.typeBarrier.toString().toLowerCase(), barrier.height);
+    public boolean canOvercome(Barrier barrier) {
+        if (barrier.barrierType == BarrierType.WALL) {
+            return canJump(barrier.barrierType.toString().toLowerCase(), barrier.height);
         } else {
-            return isRunned(barrier.typeBarrier.toString().toLowerCase(), barrier.width);
+            return canRun(barrier.barrierType.toString().toLowerCase(), barrier.width);
         }
     }
 }

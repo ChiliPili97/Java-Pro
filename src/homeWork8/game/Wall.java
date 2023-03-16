@@ -1,4 +1,4 @@
-package homeWork8.games;
+package homeWork8.game;
 
 public class Wall extends Barrier {
 

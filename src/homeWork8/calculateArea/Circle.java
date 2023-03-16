@@ -13,6 +13,6 @@ public class Circle implements CalculateArea {
 
     @Override
     public double calculateArea() {
-        return this.pi * this.r * 2 ;
+        return this.pi * this.r * 2;
     }
 }

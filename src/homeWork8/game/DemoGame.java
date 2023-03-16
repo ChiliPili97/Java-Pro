@@ -1,6 +1,6 @@
-package homeWork8.games;
+package homeWork8.game;
 
-public class DemoMember {
+public class DemoGame {
     public static void main(String[] args) {
 
         Member[] members = new Member[3];
@@ -13,7 +13,7 @@ public class DemoMember {
 
         for (Member m: members) {
             for (Barrier b: barriers) {
-                if (!m.overcome(b)) {
+                if (!m.canOvercome(b)) {
                     break;
                 }
             }
