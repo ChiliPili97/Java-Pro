@@ -8,10 +8,14 @@ public class ArrayValueCalculator {
         int rowNumber = 0;
         int columnNumber = 0;
 
+        if (array.length != 4){
+            throw new ArraySizeException("The array does not have 4 rows");
+        }
+
         for (String[] row : array) {
             rowNumber++;
             if (row.length != 4) {
-                throw new ArraySizeException("In row " + rowNumber + " the number of elements is not 4");
+                throw new ArraySizeException("In row: " + rowNumber + " the number of elements is not 4");
             }
             for (String column : row) {
                 columnNumber++;

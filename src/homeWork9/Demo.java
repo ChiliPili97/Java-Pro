@@ -5,7 +5,7 @@ public class Demo {
 
         ArrayValueCalculator arrayValueCalculator = new ArrayValueCalculator();
         String[][] array = new String[][]{
-                new String[]{"1", "2", "3", "4"},
+                //new String[]{"1", "2", "3", "4"},
                 new String[]{"1", "2", "3", "4"},
                 new String[]{"1", "2", "3", "4"},
                 new String[]{"1", "2", "3", "4"}
