@@ -22,7 +22,7 @@ public class Cat extends Animal {
         System.out.println("Кіт не вміє плавати");
     }
 
-    public int getCatsCounter() {
+    public static int getCatsCounter() {
         return catsCounter;
     }
 }
