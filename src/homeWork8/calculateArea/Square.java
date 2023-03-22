@@ -1,8 +1,6 @@
 package homeWork8.calculateArea;
 
-import homeWork8.calculateArea.CalculateArea;
-
-public class Square implements CalculateArea {
+public class Square implements Shape {
 
     private int a;
 

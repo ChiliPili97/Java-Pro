@@ -1,8 +1,6 @@
 package homeWork8.calculateArea;
 
-import homeWork8.calculateArea.CalculateArea;
-
-public class Triangle implements CalculateArea {
+public class Triangle implements Shape {
 
     private double a;
     private double b;

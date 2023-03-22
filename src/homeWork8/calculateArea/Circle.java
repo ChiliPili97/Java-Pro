@@ -1,10 +1,7 @@
 package homeWork8.calculateArea;
 
-import homeWork8.calculateArea.CalculateArea;
+public class Circle implements Shape {
 
-public class Circle implements CalculateArea {
-
-    private final double pi = 3.14;
     private double r;
 
     public Circle(double r) {
@@ -13,6 +10,6 @@ public class Circle implements CalculateArea {
 
     @Override
     public double calculateArea() {
-        return this.pi * this.r * 2;
+        return Math.PI * this.r * 2;
     }
 }
