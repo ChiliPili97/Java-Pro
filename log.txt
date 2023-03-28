@@ -1,0 +1,4 @@
+[14-32-26] [DEBUG] Message:[some message 0]
+[14-32-26] [DEBUG] Message:[some message 1]
+[14-32-26] [DEBUG] Message:[some message 2]
+[14-32-26] [DEBUG] Message:[some message 3]
