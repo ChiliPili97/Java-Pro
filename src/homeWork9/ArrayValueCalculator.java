@@ -4,13 +4,13 @@ public class ArrayValueCalculator {
 
     public int doCalc(String[][] array) {
 
-        int result = 0;
-        int rowNumber = 0;
-        int columnNumber = 0;
-
         if (array.length != 4){
             throw new ArraySizeException("The array does not have 4 rows");
         }
+
+        int result = 0;
+        int rowNumber = 0;
+        int columnNumber = 0;
 
         for (String[] row : array) {
             rowNumber++;
@@ -20,8 +20,8 @@ public class ArrayValueCalculator {
             for (String column : row) {
                 columnNumber++;
                 try {
-                    result = result + Integer.parseInt(column);
-                } catch (Exception e) {
+                    result += Integer.parseInt(column);
+                } catch (NumberFormatException e) {
                     throw new ArrayDataException("Value does not contain a parsable int (row: " + rowNumber + ", column: " + columnNumber + ")");
                 }
             }
