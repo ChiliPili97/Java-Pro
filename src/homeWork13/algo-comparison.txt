@@ -1,0 +1,4 @@
+    Both algorithms have a time complexity of O(n^2) and space complexity of O(1).
+    Bubble sort performs more swap operations than the insertion sort. The high number of swaps leads to higher runtime for the bubble sort algorithm.
+Although both algorithms have the same complexity, the difference in runtime grows as the number of elements to be sorted increases.
+    Conclusion: both algorithms have similar runtime complexities. However, for larger datasets, the bubble sort algorithm becomes slower.
