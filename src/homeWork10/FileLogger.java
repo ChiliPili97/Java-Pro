@@ -37,8 +37,8 @@ public class FileLogger {
                 throw new RuntimeException(e);
             }
 
-            throw new FileMaxSizeReachedException("Max file size: %d of file: %s, size of your file: %d"
-                    .formatted(config.getFileMaxSize(), file.getName(), file.length()));
+            //throw new FileMaxSizeReachedException("Max file size: %d of file: %s, size of your file: %d"
+             //       .formatted(config.getFileMaxSize(), file.getName(), file.length()));
         }
         try (FileWriter writer = new FileWriter(file, true)) {
             writer.write("[%s] [%s] Message:[%s]\n".formatted(getTimestamp(), loggingLevel.toString(), msg));
