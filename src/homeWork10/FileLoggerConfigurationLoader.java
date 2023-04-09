@@ -11,21 +11,21 @@ public class FileLoggerConfigurationLoader {
 
         String fileName;
         String fileFormat;
-        LoggingLevel loggingLevels;
+        LoggingLevel loggingLevel;
         int fileMaxSize;
 
-        try (InputStream is = new FileInputStream("config.properties")) {
-            Properties prop = new Properties();
-            prop.load(is);
-
-            fileName = prop.getProperty("FILE");
-            fileFormat = prop.getProperty("FORMAT");
-            loggingLevels = LoggingLevel.valueOf(prop.getProperty("LEVEL").toUpperCase());
-            fileMaxSize = Integer.parseInt(prop.getProperty("MAX-SIZE"));
+        Properties prop = new Properties();
+        try {
+            prop.load(new FileInputStream("config.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return new FileLoggerConfiguration(fileName, fileFormat, loggingLevels, fileMaxSize);
+        fileName = prop.getProperty("FILE");
+        fileFormat = prop.getProperty("FORMAT");
+        loggingLevel = LoggingLevel.valueOf(prop.getProperty("LEVEL"));
+        fileMaxSize = Integer.parseInt(prop.getProperty("MAX-SIZE"));
+
+        return new FileLoggerConfiguration(fileName, fileFormat, loggingLevel, fileMaxSize);
     }
 }

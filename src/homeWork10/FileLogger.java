@@ -15,10 +15,8 @@ public class FileLogger {
     }
 
     public void debug(String msg) {
-        if (config.isDebugEnable()) {
+        if (config.isDebugEnabled()) {
             log(msg, LoggingLevel.DEBUG);
-        } else {
-            System.out.println("This method is not available for your logger configuration");
         }
     }
 
@@ -29,16 +27,8 @@ public class FileLogger {
     private void log(String msg, LoggingLevel loggingLevel) {
         File file = new File(config.getFileName() + config.getFileFormat());
 
-        if (file.length() >= config.getFileMaxSize()) {
-            file = new File(config.getFileName() + getTimestamp() + config.getFileFormat());
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            //throw new FileMaxSizeReachedException("Max file size: %d of file: %s, size of your file: %d"
-             //       .formatted(config.getFileMaxSize(), file.getName(), file.length()));
+        if (isFileMaxSizeExecute(file)) {
+            file = createNewFile();
         }
         try (FileWriter writer = new FileWriter(file, true)) {
             writer.write("[%s] [%s] Message:[%s]\n".formatted(getTimestamp(), loggingLevel.toString(), msg));
@@ -50,5 +40,19 @@ public class FileLogger {
     private String getTimestamp() {
         LocalDateTime localTime = LocalDateTime.now();
         return localTime.format(DateTimeFormatter.ofPattern("HH-mm-ss"));
+    }
+
+    private boolean isFileMaxSizeExecute(File file) {
+        return file.length() >= config.getFileMaxSize();
+    }
+
+    private File createNewFile() {
+        File file = new File(config.getFileName() + getTimestamp() + config.getFileFormat());
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
     }
 }

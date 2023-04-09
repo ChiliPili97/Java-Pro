@@ -1,10 +1,5 @@
 package homeWork10;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 public class FileLoggerConfiguration {
 
     private String fileName;
@@ -39,7 +34,7 @@ public class FileLoggerConfiguration {
         return loggingLevels;
     }
 
-    public void setLoggingLevels(LoggingLevel loggingLevels) {
+    public void setLoggingLevel(LoggingLevel loggingLevels) {
         this.loggingLevels = loggingLevels;
     }
 
@@ -51,10 +46,7 @@ public class FileLoggerConfiguration {
         this.fileMaxSize = fileMaxSize;
     }
 
-    public boolean isDebugEnable() {
-        if (this.loggingLevels == LoggingLevel.DEBUG) {
-            return true;
-        }
-        return false;
+    public boolean isDebugEnabled() {
+        return this.loggingLevels == LoggingLevel.DEBUG;
     }
 }
