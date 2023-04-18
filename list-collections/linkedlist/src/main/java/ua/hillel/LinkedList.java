@@ -30,11 +30,6 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
-    public void add(int index, T element, int size) {
-
-    }
-
-    @Override
     public T get(int index) {
         checkElementIndex(index);
         return node(index).item;
@@ -42,6 +37,20 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public T get(T element) {
+        int index = 0;
+        if (element == null) {
+            for (Node<T> x = first; x != null; x = x.next) {
+                if (x.item == null)
+                    return item;
+                index++;
+            }
+        } else {
+            for (Node<T> x = first; x != null; x = x.next) {
+                if (element.equals(x.item))
+                    return item;
+                index++;
+            }
+        }
         return null;
     }
 
