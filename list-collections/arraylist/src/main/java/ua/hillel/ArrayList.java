@@ -21,11 +21,6 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public void add(T element) {
-        add(element, elementData, size);
-    }
-
-    @Override
     public void add(int index, T element) {
         rangeCheckForAdd(index);
         final int s;
@@ -52,6 +47,11 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T get(T element) {
+        for (int i = 0; i < size; i++) {
+            if (elementData[i].equals(element)) {
+                return element;
+            }
+        }
         return null;
     }
 
