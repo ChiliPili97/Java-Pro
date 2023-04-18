@@ -1,63 +1,46 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class Box<T extends Fruit> {
 
-    private T typeOfFruit;
-    private int amountOfFruit;
+    List<T> fruits;
 
-    public void add(T fruit) {
-        setTypeOfFruit(fruit);
-        if (isTypeEquals(fruit)) {
-            amountOfFruit++;
-        } else {
-            System.out.println("This box contains another type of fruit");
-        }
+    public Box() {
+        fruits = new ArrayList<>();
     }
 
-    public void add(T fruit, int quantity) {
-        setTypeOfFruit(fruit);
-        if (isTypeEquals(fruit)) {
-            amountOfFruit += quantity;
-        } else {
-            System.out.println("This box contains another type of fruit");
-        }
+    public void addFruit(T fruit) {
+        fruits.add(fruit);
     }
 
-    public boolean compare(Box b) {
-        return b.getWeight() == getWeight();
-    }
-
-    public void merge(Box b) {
-        if (isTypeEquals((T) b.getTypeOfFruit())) {
-            this.amountOfFruit += b.getAmountOfFruit();
-            b.setAmountOfFruit(0);
-        } else {
-            System.out.println("This box contains another type of fruit");
-        }
+    public void addFruits(List<T> fruits) {
+        this.fruits.addAll(fruits);
     }
 
     public float getWeight() {
-        return amountOfFruit * typeOfFruit.weight;
-    }
-
-    private boolean isTypeEquals(T fruit) {
-        return fruit.getClass() == typeOfFruit.getClass();
-    }
-
-    private void setTypeOfFruit(T type) {
-        if (amountOfFruit == 0) {
-            this.typeOfFruit = type;
+        float totalWeight = 0.0F;
+        for (T fruit : fruits) {
+            totalWeight += fruit.getWeight();
         }
+        return totalWeight;
     }
 
-    public T getTypeOfFruit() {
-        return typeOfFruit;
+    public boolean compare(Box<?> otherBox) {
+        return Math.abs(this.getWeight() - otherBox.getWeight()) < 0.0001;
     }
 
-    public int getAmountOfFruit() {
-        return amountOfFruit;
-    }
-
-    public void setAmountOfFruit(int amountOfFruit) {
-        this.amountOfFruit = amountOfFruit;
+    public void merge(Box<T> otherBox) {
+        if (this == otherBox) {
+            return;
+        }
+        if (this.fruits.size() == 0) {
+            this.fruits.addAll(otherBox.fruits);
+            otherBox.fruits.clear();
+        } else if (this.fruits.get(0).getClass() == otherBox.fruits.get(0).getClass()) {
+            this.fruits.addAll(otherBox.fruits);
+            otherBox.fruits.clear();
+        } else {
+            throw new IllegalArgumentException("Cannot merge boxes with different types of fruits.");
+        }
     }
 }

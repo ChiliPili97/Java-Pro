@@ -2,26 +2,32 @@ import java.awt.desktop.AppEvent;
 
 public class Main {
     public static void main(String[] args) {
-        Box boxApple1 = new Box<>();
-        boxApple1.add(new Apple());
-        boxApple1.add(new Apple());
-        boxApple1.add(new Apple());
-        boxApple1.add(new Apple());
-        boxApple1.add(new Apple());
-        System.out.println("Box 1 weight: " + boxApple1.getWeight());
+        Apple apple1 = new Apple();
+        Apple apple2 = new Apple();
+        Orange orange1 = new Orange();
+        Orange orange2 = new Orange();
 
-        Box boxApple2 = new Box<>();
-        boxApple2.add(new Apple());
-        boxApple2.add(new Apple());
-        boxApple2.add(new Apple());
-        System.out.println("Box 2 weight: " + boxApple2.getWeight());
+        Box<Apple> appleBox1 = new Box<>();
+        appleBox1.addFruit(apple1);
+        appleBox1.addFruit(apple2);
 
-        Box boxOrange = new Box<>();
-        boxOrange.add(new Orange());
-        boxOrange.add(new Orange());
+        Box<Orange> orangeBox1 = new Box<>();
+        orangeBox1.addFruit(orange1);
+        orangeBox1.addFruit(orange2);
 
-        boxApple1.merge(boxApple2);
-        System.out.println("Box 1 weight after merge: " + boxApple1.getWeight());
-        System.out.println("Box 2 weight after merge: " + boxApple2.getWeight());
+        Box<Apple> appleBox2 = new Box<>();
+        appleBox2.addFruit(new Apple());
+
+        System.out.println("Apple Box 1 Weight: " + appleBox1.getWeight());
+        System.out.println("Orange Box 1 Weight: " + orangeBox1.getWeight());
+        System.out.println("Apple Box 2 Weight: " + appleBox2.getWeight());
+
+        System.out.println("Comparing Apple Box 1 and Orange Box 1: " + appleBox1.compare(orangeBox1));
+        System.out.println("Comparing Apple Box 1 and Apple Box 2: " + appleBox1.compare(appleBox2));
+
+        appleBox1.merge(appleBox2);
+
+        System.out.println("Apple Box 1 Weight after merge: " + appleBox1.getWeight());
+        System.out.println("Apple Box 2 Weight after merge: " + appleBox2.getWeight());
     }
 }
