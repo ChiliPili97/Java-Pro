@@ -1,6 +1,6 @@
-package arraylist.src.main.java.ua.hillel;
+package main.java.ua.hillel;
 
-import common.src.main.java.ua.hillel.List;
+import main.java.ua.hillel.List;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -13,11 +13,16 @@ public class ArrayList<T> implements List<T> {
 
     private static final Object[] EMPTY_ELEMENTDATA = {};
     private static final int DEFAULT_CAPACITY = 10;
-    Object[] elementData;
-    int size;
+    private Object[] elementData;
+    private int size;
 
     public ArrayList() {
         this.elementData = EMPTY_ELEMENTDATA;
+    }
+
+    @Override
+    public void add(T element) {
+        add(element, elementData, size);
     }
 
     @Override
@@ -35,14 +40,9 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public void add(int index, T element, int size) {
-
-    }
-
-    @Override
     public T get(int index) {
         Objects.checkIndex(index, size);
-        return elementData(index);
+        return (T) elementData[index];
     }
 
     @Override
@@ -68,7 +68,6 @@ public class ArrayList<T> implements List<T> {
     @Override
     public void set(int index, T element) {
         Objects.checkIndex(index, size);
-        T oldValue = elementData(index);
         elementData[index] = element;
     }
 
@@ -76,7 +75,6 @@ public class ArrayList<T> implements List<T> {
     public boolean remove(int index) {
         Objects.checkIndex(index, size);
         final Object[] es = elementData;
-        T oldValue = (T) es[index];
         fastRemove(es, index);
         return true;
     }
@@ -141,10 +139,6 @@ public class ArrayList<T> implements List<T> {
     private void rangeCheckForAdd(int index) {
         if (index > size || index < 0)
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-    }
-
-    T elementData(int index) {
-        return (T) elementData[index];
     }
 
     private void fastRemove(Object[] es, int i) {
