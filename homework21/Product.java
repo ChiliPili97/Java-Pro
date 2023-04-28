@@ -1,24 +1,25 @@
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Product {
-    private String typ;
+    private ProductType type;
     private double price;
-    private boolean discount;
-    private LocalDateTime timestamp;
+    private boolean hasDiscount;
+    private LocalDateTime createAt;
 
-    public Product(String typ, long price, boolean discount) {
-        this.typ = typ;
+    public Product(ProductType type, long price, boolean hasDiscount) {
+        this.type = type;
         this.price = price;
-        this.discount = discount;
-        this.timestamp = LocalDateTime.now();
+        this.hasDiscount = hasDiscount;
+        this.createAt = LocalDateTime.now();
     }
 
-    public String getTyp() {
-        return typ;
+    public ProductType getType() {
+        return type;
     }
 
-    public void setTyp(String typ) {
-        this.typ = typ;
+    public void setType(ProductType type) {
+        this.type = type;
     }
 
     public double getPrice() {
@@ -29,26 +30,39 @@ public class Product {
         this.price = price;
     }
 
-    public boolean isDiscount() {
-        return discount;
+    public boolean isHasDiscount() {
+        return hasDiscount;
     }
 
-    public void setDiscount(boolean discount) {
-        this.discount = discount;
+    public void setHasDiscount(boolean hasDiscount) {
+        this.hasDiscount = hasDiscount;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public LocalDateTime getCreateAt() {
+        return createAt;
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "typ='" + typ + '\'' +
+                "type='" + type + '\'' +
                 ", price=" + price +
-                ", discount=" + discount +
-                ", timestamp=" + timestamp +
+                ", hasDiscount=" + hasDiscount +
+                ", createAt=" + createAt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Double.compare(product.price, price) == 0 && hasDiscount == product.hasDiscount && Objects.equals(type, product.type) && Objects.equals(createAt, product.createAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, price, hasDiscount, createAt);
     }
 }
 
