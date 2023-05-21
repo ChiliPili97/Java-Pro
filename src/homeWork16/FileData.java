@@ -1,5 +1,7 @@
 package homeWork16;
 
+import java.util.Objects;
+
 public class FileData implements Comparable<FileData> {
 
     private String name;
@@ -43,6 +45,19 @@ public class FileData implements Comparable<FileData> {
                 ", size=" + size +
                 ", path='" + path + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FileData fileData = (FileData) o;
+        return size == fileData.size && Objects.equals(name, fileData.name) && Objects.equals(path, fileData.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, size, path);
     }
 
     @Override

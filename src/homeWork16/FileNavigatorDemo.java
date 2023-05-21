@@ -11,11 +11,11 @@ public class FileNavigatorDemo {
         fileNavigator.add(file1.getPath(), file1);
         fileNavigator.add(file2.getPath(), file2);
         fileNavigator.add(file3.getPath(), file3);
-        fileNavigator.add("/src/homeWork", file4);
+        //fileNavigator.add("/src/homeWork", file4);
         //System.out.println(fileNavigator.find(file1.getPath()));
         //System.out.println(fileNavigator.find(file3.getPath()));
         //System.out.println(fileNavigator.filterBySize(60));
-        System.out.println(fileNavigator.filterBySize(60));
+        //System.out.println(fileNavigator.filterBySize(60));
         System.out.println(fileNavigator.sortBySize());
     }
 }
