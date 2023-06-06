@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class JdbcUtils {
-    private static final String DB_PROPS = "db.properties";
+    private static final String DB_PROPS = "resources/db.properties";
     private static final String DB_URL = "db.url";
     private static final String DB_PASSWORD = "db.password";
     public static final String DB_USER = "db.user";
@@ -22,7 +22,7 @@ public class JdbcUtils {
         }
     }
 
-    private static DataSource intiDataSource () {
+    private static DataSource initDataSource() {
         Properties props = loadProperties();
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         dataSource.setURL(props.getProperty(DB_URL));
@@ -33,9 +33,12 @@ public class JdbcUtils {
 
     public static void main(String[] args) {
 
-        LessonDao lessonDao = new LessonDao(intiDataSource());
-        lessonDao.insert( new Lesson("Jdbc", 5L));
-        lessonDao.delete(10L);
+        Homework homework = new Homework();
+        homework.setId(5L);
+
+        LessonDao lessonDao = new LessonDao(initDataSource());
+        //lessonDao.insert( new Lesson("Jdbc", homework));
+        //lessonDao.delete(10L);
         List<Lesson> allLessons = lessonDao.getAllLessons();
         for (Lesson lesson: allLessons) {
             System.out.println(lesson);

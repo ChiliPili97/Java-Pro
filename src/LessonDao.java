@@ -17,14 +17,14 @@ public class LessonDao {
         if (entity.getId() != null) {
             throw new JdbcOperationException("Id must not be provided during the insert operation!");
         }
-        var sql = """
+        final var SQL = """
                 INSERT INTO schedule.lesson(name, homework_id) VALUES (?, ?)
                 """;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
             int idx = 1;
             ps.setString(idx++, entity.getName());
-            ps.setLong(idx, entity.getHomework());
+            ps.setLong(idx, entity.getHomework().getId());
             int rowInserted = ps.executeUpdate();
             if (rowInserted < 1) {
                 throw new JdbcOperationException("No rows were inserted, input entity = %s".formatted(entity));
@@ -42,11 +42,11 @@ public class LessonDao {
 
     public boolean delete(Long id) {
         Objects.requireNonNull(id);
-        var sql = """
+        final var SQL = """
                 DELETE FROM schedule.lesson WHERE id = ?
                 """;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(SQL)) {
             int idx = 1;
             ps.setLong(idx, id);
             int rowsDeleted = ps.executeUpdate();
@@ -61,21 +61,18 @@ public class LessonDao {
 
     public List<Lesson> getAllLessons() {
         List<Lesson> allLessons = new ArrayList<>();
-        var sql = """
+        final var SQL = """
                 SELECT id, name, homework_id FROM schedule.lesson
                 """;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Lesson lesson = new Lesson();
                 lesson.setId(rs.getLong("id"));
-                lesson.setHomework(rs.getLong("homework_id"));
+                lesson.setHomework(getHomeworkById(rs.getLong("homework_id")));
                 lesson.setName(rs.getString("name"));
                 allLessons.add(lesson);
-            }
-            if (allLessons.isEmpty()) {
-                throw new JdbcOperationException("Table is empty");
             }
         } catch (SQLException e) {
             throw new JdbcOperationException("Failed to select all lessons", e);
@@ -86,17 +83,17 @@ public class LessonDao {
     public Lesson getLessonById(Long id) {
         Objects.requireNonNull(id);
         Lesson lesson = new Lesson();
-        var sql = """
+        final var SQL = """
                 SELECT id, name, homework_id FROM schedule.lesson WHERE id = ?
                 """;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(SQL)) {
             int idx = 1;
             ps.setLong(idx, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 lesson.setId(rs.getLong("id"));
-                lesson.setHomework(rs.getLong("homework_id"));
+                lesson.setHomework(getHomeworkById(rs.getLong("homework_id")));
                 lesson.setName(rs.getString("name"));
                 return lesson;
             } else {
@@ -104,6 +101,30 @@ public class LessonDao {
             }
         } catch (SQLException e) {
             throw new JdbcOperationException("Failed to find a product by id = %d".formatted(id), e);
+        }
+    }
+
+    public Homework getHomeworkById(Long id) {
+        Objects.requireNonNull(id);
+        Homework homework = new Homework();
+        final var SQL = """
+                SELECT id, name, description FROM schedule.homework WHERE id = ?
+                """;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQL)) {
+            int idx = 1;
+            ps.setLong(idx, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                homework.setId(rs.getLong("id"));
+                homework.setName(rs.getString("name"));
+                homework.setDescription(rs.getString("description"));
+                return homework;
+            } else {
+                throw new JdbcOperationException("Homework with id = %d not found!".formatted(id));
+            }
+        } catch (SQLException e) {
+            throw new JdbcOperationException("Failed to find a homework by id = %d".formatted(id), e);
         }
     }
 }

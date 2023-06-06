@@ -1,12 +1,14 @@
+import java.util.Objects;
+
 public class Lesson {
-    Long id;
-    String name;
-    Long homework;
+    private Long id;
+    private String name;
+    private Homework homework;
 
     public Lesson() {
     }
 
-    public Lesson(String name, Long homework) {
+    public Lesson(String name, Homework homework) {
         this.name = name;
         this.homework = homework;
     }
@@ -27,11 +29,11 @@ public class Lesson {
         this.name = name;
     }
 
-    public Long getHomework() {
+    public Homework getHomework() {
         return homework;
     }
 
-    public void setHomework(Long homework) {
+    public void setHomework(Homework homework) {
         this.homework = homework;
     }
 
@@ -42,5 +44,18 @@ public class Lesson {
                 ", name='" + name + '\'' +
                 ", homework=" + homework +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lesson lesson = (Lesson) o;
+        return Objects.equals(id, lesson.id) && Objects.equals(name, lesson.name) && Objects.equals(homework, lesson.homework);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, homework);
     }
 }
