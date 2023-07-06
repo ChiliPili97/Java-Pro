@@ -12,7 +12,7 @@ import java.util.List;
 
 @RequestMapping("api/orders")
 @RestController
-public class OrderController extends HttpServlet {
+public class OrderController {
 
     private OrderRepository orderRepository;
 

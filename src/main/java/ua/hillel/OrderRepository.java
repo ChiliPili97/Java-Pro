@@ -14,9 +14,11 @@ public class OrderRepository {
     private List<Order> orders = new ArrayList<>();
 
     public Order getOrderByID(long id) {
-        for (Order order : orders) {
-            if (order.getId() == id) {
-                return order;
+        if (id >= 0) {
+            for (Order order : orders) {
+                if (order.getId() == id) {
+                    return order;
+                }
             }
         }
         return null;
