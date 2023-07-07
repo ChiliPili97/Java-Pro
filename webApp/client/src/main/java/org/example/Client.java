@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.commands.Commands;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -10,8 +12,6 @@ public class Client implements Runnable {
     private static final Logger LOGGER = Logger.getLogger(Client.class.getName());
     private static final String HOST = "localhost";
     private static final int PORT = 8081;
-    private static final String CMD_EXIT = "-exit";
-    private static final String CMD_FILE = "-file";
 
     public static void start() {
         try (Socket clientSocket = new Socket(HOST, PORT)) {
@@ -20,22 +20,22 @@ public class Client implements Runnable {
             var is = new DataInputStream(clientSocket.getInputStream());
 
             out.writeUTF(Thread.currentThread().getName());
-            LOGGER.info("%s connected to server".formatted(Thread.currentThread().getName()));
 
             while (true) {
-
                 LOGGER.info("Message from server: %s".formatted(is.readUTF()));
-
                 Scanner scanner = new Scanner(System.in);
                 String cmd = scanner.nextLine();
 
-                if (cmd.equals(CMD_EXIT)) {
-                    out.writeUTF(cmd);
-                    LOGGER.info("Disconnected from server");
-                    break;
-                } else if (cmd.equals(CMD_FILE)) {
-                    sendFile(out, cmd.trim().split(" ")[1].trim());
-                }
+                try {
+                    Commands command = Enum.valueOf(Commands.class, cmd);
+                    if (command.equals(Commands.EXIT)) {
+                        out.writeUTF(cmd);
+                        break;
+                    } else if (command.equals(Commands.FILE)) {
+                        sendFile(out, cmd.trim().split(" ")[1].trim());
+                    }
+                } catch (Exception ignored) { }
+
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

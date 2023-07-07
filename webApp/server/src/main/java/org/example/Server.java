@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.commands.Commands;
+import org.springframework.expression.ExpressionInvocationTargetException;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,8 +14,6 @@ import java.util.logging.Logger;
 public class Server {
     private static final Logger LOGGER = Logger.getLogger(Server.class.getName());
     public static final int PORT = 8081;
-    private static final String CMD_EXIT = "-exit";
-    private static final String CMD_FILE = "-file";
     private static final String FILE_PATH = "src/main/resources";
     private static final Map<String, ClientInfo> ACTIVE_CLIENTS = new HashMap<>();
     private static int clientNum;
@@ -23,18 +24,20 @@ public class Server {
             while (true) {
 
                 Socket clientSocket = serverSocket.accept();
+                if (!isClientExist(clientSocket)) {
+                    addNewClient(clientSocket);
+                }
+
                 var is = new DataInputStream(clientSocket.getInputStream());
                 var msg = is.readUTF();
 
-                if (msg.contains(CMD_FILE)) {
-                    receiveFile(clientSocket);
-                } else if (msg.contains(CMD_EXIT)) {
-                    removeClient(clientSocket);
-                } else {
-                    String clientName = generateName();
-                    ACTIVE_CLIENTS.put(clientName, new ClientInfo(clientName, LocalDateTime.now(), clientSocket));
-                    sendMessage("[SERVER] %s connected successfully".formatted(clientName));
-                    LOGGER.info("Connected new client %s".formatted(clientName));
+                try {
+                    Commands command = Enum.valueOf(Commands.class, msg.split(" ")[0]);
+                    switch (command) {
+                        case EXIT -> removeClient(clientSocket);
+                        case FILE -> receiveFile(clientSocket);
+                    }
+                } catch (Exception ignored) {
                 }
             }
         } catch (IOException e) {
@@ -45,6 +48,7 @@ public class Server {
     private static void removeClient(Socket clientSocket) throws IOException {
         ACTIVE_CLIENTS.remove(getClientName(clientSocket));
         clientSocket.close();
+        LOGGER.info("%s disconnected from server".formatted(getClientName(clientSocket)));
     }
 
     private static void receiveFile(Socket clientSocket) {
@@ -55,7 +59,11 @@ public class Server {
             int bytesRead = dis.read(buffer);
 
             while (bytesRead != -1) {
-                writer.write(new String(buffer, 0, bytesRead));
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < bytesRead; i++) {
+                    stringBuilder.append((char) buffer[i]);
+                }
+                writer.write(stringBuilder.toString());
             }
             writer.close();
 
@@ -89,5 +97,21 @@ public class Server {
             }
         }
         return null;
+    }
+
+    private static boolean isClientExist(Socket socket) {
+        for (ClientInfo clientInfo : ACTIVE_CLIENTS.values()) {
+            if (clientInfo.getClientSocket() == socket) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void addNewClient(Socket clientSocket) {
+        String clientName = generateName();
+        ACTIVE_CLIENTS.put(clientName, new ClientInfo(clientName, LocalDateTime.now(), clientSocket));
+        sendMessage("[SERVER] %s connected successfully".formatted(clientName));
+        LOGGER.info("Connected new client: %s".formatted(clientName));
     }
 }
