@@ -1,0 +1,19 @@
+2023-07-17 14:06:19 INFO   Added new order 	 num: 1, name: Ivan
+2023-07-17 14:06:19 INFO   Added new order 	 num: 2, name: Andrii
+2023-07-17 14:06:19 INFO   Delivered last order 	 num: 2, name: Andrii
+2023-07-17 14:06:19 INFO   Added new order 	 num: 3, name: Vasil
+2023-07-17 14:06:19 INFO   Added new order 	 num: 4, name: Olena
+2023-07-17 14:06:19 INFO   Added new order 	 num: 5, name: Oleksandr
+2023-07-17 14:06:19 INFO   ===============
+Num | Name
+1 | Ivan
+3 | Vasil
+4 | Olena
+5 | Oleksandr
+
+2023-07-17 14:06:19 INFO   Delivered order 	 num: 5, name: Oleksandr
+2023-07-17 14:06:19 INFO   ===============
+Num | Name
+1 | Ivan
+3 | Vasil
+
